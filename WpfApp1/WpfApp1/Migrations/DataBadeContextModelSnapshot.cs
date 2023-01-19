@@ -30,18 +30,22 @@ namespace WpfApp1.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Semester")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Semester")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("modules");
+                    b.ToTable("Modules");
                 });
 
             modelBuilder.Entity("WpfApp1.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AcademicAdvisorId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
@@ -57,7 +61,39 @@ namespace WpfApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("students");
+                    b.HasIndex("AcademicAdvisorId");
+
+                    b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("WpfApp1.Teacher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teachers");
+                });
+
+            modelBuilder.Entity("WpfApp1.Student", b =>
+                {
+                    b.HasOne("WpfApp1.Teacher", "AcademicAdvisor")
+                        .WithMany()
+                        .HasForeignKey("AcademicAdvisorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AcademicAdvisor");
                 });
 #pragma warning restore 612, 618
         }

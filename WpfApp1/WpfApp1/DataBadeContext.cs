@@ -9,12 +9,15 @@ namespace WpfApp1
 {
     public class DataBadeContext : DbContext
     {
-        private readonly string path = @"C:\Users\bhanu\Desktop\Lecture_11";
+       
+
+        private readonly string _path = @"C:\Users\bhanu\Desktop\Lecture_11\UniversityInfo.db";
         protected override void OnConfiguring(DbContextOptionsBuilder 
             optionsBuilder) => optionsBuilder
-                                .UseSqlite($"Data Source = {path}");
+                                .UseSqlite($"Data Source = {_path}");
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Module> Modules { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
 
-        public DbSet<Student> students { get; set; }
-        public DbSet<Module> modules { get; set; }
     }
 }
